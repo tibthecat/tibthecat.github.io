@@ -4,6 +4,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: 'https://tibthecat.github.io/',
-  integrations: [tailwind(), mdx(), sitemap()],
+  site: 'https://tibthecat.github.io',
+  base: '/',
+  integrations: [mdx(), sitemap(), tailwind()],
 });
