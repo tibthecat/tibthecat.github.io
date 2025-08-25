@@ -14,17 +14,19 @@ projects.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
 <BaseLayout title="Projects" sideBarActiveItemID="projects">
   <div>
-    <div class="text-3xl w-full font-bold mb-5">Projects Header</div>
+    <div class="text-3xl w-full font-bold mb-5">Projects</div>
   </div>
 
   {projects.map((project) => (
     <HorizontalCard
       key={createSlug(project.data.title)} // Unique key for each project card
       title={project.data.title}
-      img="/post_img.webp"  // Replace with the appropriate project image
+      img={project.data.heroImage}  
       desc={project.data.description || 'No description available'} // Fallback for description
-      url={`/projects/${project.slug}`}  // This links to the markdown file's converted HTML page
-      badge="NEW"  // Optional badge
+      url={"/projects/" + createSlug(project.data.title, project.slug)}
+      target="_self"  
+      // badge="NEW"  // Optional badge
     />
   ))}
 </BaseLayout>
+
