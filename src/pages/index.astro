@@ -16,26 +16,68 @@ const last_Projects = sortedProjects.slice(0, 3);
 
 ---
 
+
 <BaseLayout sideBarActiveItemID="home">
   <div class="pb-12 mt-5">
-    <div class="text-xl py-1">Hey there 👋</div>
-    <div class="text-5xl font-bold">I'm Tibthecat</div>
-    <div class="text-3xl py-3 font-bold">Blockchain Engineer and artist</div>
-    <div class="py-2">
-      <text class="text-lg">
-
-I'm a software engineer focused on Solidity and Smart contract security.<br> In another life, I built 3D engines and worked in gaming, but these days I’m all about blockchain, Defi, and digital freedom.<br>
- I like building things that matter and breaking them when they don’t.
-      </text>
+    
+    <!-- Hybrid approach: Tailwind + custom classes -->
+    <div class="text-xl py-1 text-base-content/70">
+      Hey there 👋
     </div>
-    <div class="mt-8">
-      <a class="btn" href="https://x.com/katseyezzz" target="_blank"> Let's connect!</a>
+    
+    <!-- Custom gradient with Tailwind sizing/spacing -->
+    <div class="text-5xl md:text-6xl font-bold py-2 gradient-text 
+                hover:scale-105 transform transition-transform duration-300">
+      I'm Tibthecat
+    </div>
+    
+    <!-- Rest of your content using mostly Tailwind -->
+    <div class="text-3xl py-3 font-semibold">
+      <span class="text-base-content">Blockchain Engineer</span>
+      <span class="text-accent text-4xl mx-2">&</span>
+      <span class="text-base-content">Artist</span>
+    </div>
 
+    <div class="py-4 max-w-3xl">
+      <p class="text-lg leading-relaxed text-base-content/80">
+        In another life, I built 
+        <span class="text-accent font-semibold px-2 py-1 bg-accent/10 rounded-md">
+          3D engines
+        </span> 
+        and worked in gaming, but these days I'm all about 
+        <span class="text-primary font-semibold px-2 py-1 bg-primary/10 rounded-md">
+          blockchain, DeFi,
+        </span> 
+        and digital freedom.
+      </p>
+      
+      <p class="text-lg leading-relaxed text-base-content font-medium mt-4 
+               border-l-4 border-accent pl-4 italic">
+        I like building things that matter and breaking them when they don't.
+      </p>
+    </div>
+
+    <!-- Buttons with Tailwind + custom glow -->
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a href="/projects" 
+         class="btn btn-outline btn-lg glow-hover
+                hover:scale-110 transform transition-all duration-300">
+        View My Work
+      </a>
+      
+      <a href="/cv" 
+         class="btn btn-outline btn-lg glow-hover
+                hover:scale-110 transform transition-all duration-300">
+        My Resume
+      </a>
     </div>
   </div>
 
-  <div>
-    <div class="text-3xl w-full font-bold mb-2">My last projects {"</>"}</div>
+  <!-- Projects section -->
+  <div class="mt-16">
+    <div class="text-3xl font-bold mb-8 gradient-text flex items-center">
+      My Latest Projects
+    </div>
   </div>
 
  {
@@ -54,9 +96,10 @@ I'm a software engineer focused on Solidity and Smart contract security.<br> In 
     ))
   }
 
-
-  <div>
-    <div class="text-3xl w-full font-bold mb-5 mt-10">Latest from blog</div>
+    <div class="mt-16">
+    <div class="text-3xl font-bold mb-8 gradient-text flex items-center">
+     Latest from blog
+    </div>
   </div>
 
   {
