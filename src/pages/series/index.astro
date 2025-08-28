@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+
+const articles = await getCollection('blog');
+const seriesMap = new Map();
+
+articles.forEach(article => {
+  if (article.data.series) {
+    if (!seriesMap.has(article.data.series)) {
+      seriesMap.set(article.data.series, {
+        articles: [],
+        description: article.data.series.replace('-', ' ').toUpperCase()
+      });
+    }
+    seriesMap.get(article.data.series).articles.push(article);
+  }
+});
+---
+
+<html>
+<head>
+  <title>Article Series</title>
+</head>
+<body>
+  <h1>Article Series</h1>
+  
+  {Array.from(seriesMap.entries()).map(([seriesName, seriesData]) => (
+    <div class="series-card">
+      <h2>
+        <a href={`/series/${seriesName}`}>
+          {seriesData.description}
+        </a>
+      </h2>
+      <p>{seriesData.articles.length} articles</p>
+    </div>
+  ))}
+</body>
+</html>

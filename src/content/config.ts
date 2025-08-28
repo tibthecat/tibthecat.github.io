@@ -6,6 +6,8 @@ const blogSchema = z.object({
     updatedDate: z.string().optional(),
     heroImage: z.string().optional(),
     badge: z.string().optional(),
+    series: z.string().optional(), // Theme/series identifier
+    seriesOrder: z.number().optional(), // Order within series
     tags: z.array(z.string()).refine(items => new Set(items).size === items.length, {
         message: 'tags must be unique',
     }).optional(),

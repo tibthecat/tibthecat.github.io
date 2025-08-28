@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HorizontalCard from "../../components/HorizontalCard.astro";
+import createSlug from "../../lib/createSlug"
+
+export async function getStaticPaths() {
+  const articles = await getCollection('blog');
+  
+  // Group articles by series
+  const seriesMap = new Map();
+  articles.forEach(article => {
+    if (article.data.series) {
+      if (!seriesMap.has(article.data.series)) {
+        seriesMap.set(article.data.series, []);
+      }
+      seriesMap.get(article.data.series).push(article);
+    }
+  });
+
+  // Sort articles within each series
+  seriesMap.forEach((articles, series) => {
+    articles.sort((a, b) => (a.data.seriesOrder || 0) - (b.data.seriesOrder || 0));
+  });
+
+  return Array.from(seriesMap.entries()).map(([series, articles]) => ({
+    params: { series },
+    props: { articles, seriesName: series }
+  }));
+}
+
+const { articles, seriesName } = Astro.props;
+---
+
+<BaseLayout title="Blog" sideBarActiveItemID="blog">
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Articles - {seriesName.replace('-', ' ').toUpperCase()}</div>
+  </div>
+
+  {
+    articles.length === 0 ? (
+      <div class="bg-base-200 border-l-4 border-secondary w-full p-4 min-w-full">
+        <p class="font-bold">Sorry!</p>
+        <p>There are no articles to show at the moment. Check back later!</p>
+      </div>
+    ) : (
+      <ul>
+        {articles.map((post, index) => (
+          <>
+            <HorizontalCard
+              title={post.data.title}
+              img={post.data.heroImage}
+              desc={post.data.description}
+              url={"/blog/" + createSlug(post.data.title, post.slug)}
+              target="_self"
+              badge={post.data.badge}
+              tags={post.data.tags}
+            />
+            <div class="divider my-0" />
+          </>
+        ))}
+      </ul>
+    )
+  }
+
+  
+</BaseLayout>
+
+<!-- <BaseLayout title="Blog" sideBarActiveItemID="blog">
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">{seriesName.replace('-', ' ').toUpperCase()} Series</div>
+  </div>
+
+  <div class="series-articles">
+    {articles.map((article, index) => (
+      <article>
+        <h2>
+          <span class="series-number">Part {index + 1}:</span>
+          <a href={`/articles/${article.slug}`}>
+            {article.data.title}
+          </a>
+        </h2>
+        <p>{article.data.description}</p>
+        <time>{article.data.pubDate.toDateString()}</time>
+      </article>
+    ))}
+  </div>
+
+
+</BaseLayout>  -->

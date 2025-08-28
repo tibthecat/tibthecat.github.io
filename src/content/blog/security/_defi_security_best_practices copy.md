@@ -1,9 +1,11 @@
 ---
-title: "DeFi Security Tips from the Trenches"
+title: "DeFi Security Tips from the Trenches 2"
 description: "Practical advice for building safer DeFi protocols, straight from a developer’s experience."
 pubDate: "Aug 25 2025"
 heroImage: "/defi_best_practices.webp"
 tags: ["defi","solidity","security"]
+series: "Smart contracts security"
+seriesOrder: 1
 ---
 
 # DeFi Security Tips from the Trenches
