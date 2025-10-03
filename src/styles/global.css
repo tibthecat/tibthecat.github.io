@@ -1,0 +1,77 @@
+/* Custom enhancements to work WITH Tailwind */
+/* @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap'); */
+/* or */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+.time-line-container>div:last-child .education__time>.education__line {
+    display: none;
+}
+
+
+/* VS Code GitHub Dark Theme */
+:root {
+  --primary-bg: #0d1117;
+  --secondary-bg: #21262d;
+  --accent-gradient: linear-gradient(135deg, #58a6ff, #3fb950);
+  --glow-primary: rgba(88, 166, 255, 0.3);
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --border-color: #30363d;
+  --blur-bg: rgba(33, 38, 45, 0.8);
+}
+
+body {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace !important;
+  background: var(--primary-bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* GitHub-style gradient text */
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+/* Custom glow effect */
+.glow-hover:hover {
+  box-shadow: 0 0 20px var(--glow-primary);
+}
+
+/* Enhanced card styling that works with Tailwind */
+.card {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth transitions for everything */
+* {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Force dark background */
+body {
+  background: #0a0a0a !important;
+  min-height: 100vh;
+}
+
+/* Make sure all containers are dark */
+.drawer-content {
+  background: #0a0a0a !important;
+}
+
+html {
+  background: #0a0a0a !important;
+}
+
+[data-theme="dark"] {
+  --b1: #0d1117; /* GitHub dark background */
+  --b2: #21262d; /* Secondary background */
+  --b3: #30363d; /* Borders */
+  --bc: #f0f6fc; /* Text color */
+  --p: #58a6ff;  /* Primary (GitHub blue) */
+  --s: #3fb950;  /* Secondary (GitHub green) */
+  --a: #f85149;  /* Accent (GitHub red) */
+}

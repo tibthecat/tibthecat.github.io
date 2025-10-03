@@ -1,0 +1,118 @@
+---
+import { type BlogSchema } from "../content/config";
+import BaseLayout from "./BaseLayout.astro";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import createSlug from "../lib/createSlug"
+export interface Props extends BlogSchema {}
+
+const { title, description, pubDate, updatedDate, heroImage, badge, tags, series, slug = [] } = Astro.props;
+dayjs.extend(localizedFormat);
+const displayDate = dayjs(pubDate).format("ll")
+import { Image } from "astro:assets";
+
+
+
+
+
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from "astro:content";
+// const frontmatter = theEntry.data;
+// const slug = theEntry.slug;
+// Tell TypeScript it's a blog entry
+//const { entry } = Astro.props as { entry: CollectionEntry<"blog"> };
+
+// Access data
+// const frontmatter = entry.data; 
+// const slug = entry.slug;
+// //const { frontmatter, slug } = Astro.props;
+
+//Get other articles in the same series
+let seriesArticles = [];
+if (series) {
+  const allArticles = await getCollection('blog');
+  seriesArticles = allArticles
+    .filter(article => article.data.series === series)
+    .sort((a, b) => (a.data.seriesOrder || 0) - (b.data.seriesOrder || 0));
+}
+
+const currentIndex = seriesArticles.findIndex(
+  (article) => createSlug(article.data.title, article.slug) === slug
+);
+
+
+
+const prevArticle = seriesArticles[currentIndex - 1];
+const nextArticle = seriesArticles[currentIndex + 1];
+
+
+---
+
+
+
+<BaseLayout title={title} description={description} image={heroImage}, ogType="article">
+  <main class="md:flex md:justify-center">
+
+
+
+
+    <article class="prose prose-lg max-w-[750px] prose-img:mx-auto">
+        {series && (
+    <div class="series-info">
+      <p>
+        Part {currentIndex + 1} of 
+        <a href={`/series/${series}`}>
+          {series.replace('-', ' ').toUpperCase()}
+        </a> series
+      </p>
+    </div>
+  )}
+
+      {heroImage && <Image width={750} height={422} format="webp" src={heroImage} alt={title} class="w-full mb-6" />}
+      <h1 class="title my-2 text-4xl font-bold">{title}</h1>
+      {pubDate && <time>{displayDate}</time>}
+      <br />
+      {badge && <div class="badge badge-secondary my-1">{badge}</div>}
+      {
+        tags &&
+          tags.map((tag) => (
+            <a href={`/blog/tag/${tag}`} class="badge badge-outline ml-2 no-underline">
+              {tag}
+            </a>
+          ))
+      }
+      {
+        updatedDate && (
+          <div>
+            {" "}
+            Last updated on <time>{updatedDate}</time>{" "}
+          </div>
+        )
+      }
+      <div class="divider my-2"></div>
+      <slot />
+
+        {series && (
+   <nav class="series-nav" style="display:flex; justify-content:space-between; margin-top:2rem;">
+  {prevArticle && (
+    <a
+      href={"/blog/" + createSlug(prevArticle.data.title, prevArticle.slug)}
+      class="prev"
+    >
+      ← Previous: {prevArticle.data.title}
+    </a>
+  )}
+
+  {nextArticle && (
+    <a
+      href={"/blog/" + createSlug(nextArticle.data.title, nextArticle.slug)}
+      class="next"
+    >
+      Next: {nextArticle.data.title} →
+    </a>
+  )}
+</nav>
+  )}
+    </article>
+  </main>
+</BaseLayout>

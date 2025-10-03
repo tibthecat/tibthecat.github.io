@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TimeLineElement from "../components/cv/TimeLine.astro";
+---
+
+<BaseLayout title="Resume" sideBarActiveItemID="cv">
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Profile</div>
+  </div>
+
+  <div class="mb-10 text-justify">
+    3D engineer in a software company and part-time smart contract developer specialized in Solidity and Foundry.  
+    Over 2 years of hands-on experience building and deploying smart contracts in the DeFi space — from protocol design to audits and cross-chain infrastructure.
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Education</div>
+  </div>
+
+  <div class="time-line-container grid gap-4 mb-10">
+    <TimeLineElement
+      title="Blockchain Engineer Diploma"
+      subtitle="2022 at Alyra Blockchain School, Remote"
+    />
+    <TimeLineElement
+      title="Solana Developer Diploma"
+      subtitle="2025 at Alyra Blockchain School, Remote"
+    />
+    <TimeLineElement
+      title="Computer Science Degree"
+      subtitle="2000 to 2003 at Top French Engineering School, France"
+    />
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Experience</div>
+  </div>
+
+  <div class="time-line-container mb-10">
+    <TimeLineElement
+      title="Lead Dev at Numa Protocol"
+      subtitle="2023 to 2025 – Numa Project, Remote"
+    >
+      Built a DeFi protocol with vaults, synthetics using Uniswap V3 TWAP, custom lending logic, and LayerZero-based bridging.  
+      Wrote all production smart contracts, test suites, and deployment logic.  
+      Audited via Sherlock public contest.
+    </TimeLineElement>
+
+    <TimeLineElement
+      title="Security Researcher at Perfect Abstraction"
+      subtitle="2022 to 2023 – Remote"
+    >
+      Participated in audits for projects using diamond contracts.  
+      Reviewed custom protocols and NFT mechanics.
+    </TimeLineElement>
+
+    <TimeLineElement
+      title="3D Software Engineer"
+      subtitle="2010 to 2025 – 3D Software Company, France"
+    >
+      Long-term position building real-time 3D applications with C++, OpenGL, and GLSL.  
+      Focused on graphics, rendering, simulation tools, and performance optimization.
+    </TimeLineElement>
+
+    <TimeLineElement
+      title="Banking Software Engineer"
+      subtitle="2005 to 2010 – Finance Sector, France"
+    >
+      Developed C++ back office tools for banking operations and financial software infrastructure.
+    </TimeLineElement>
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Certifications</div>
+  </div>
+
+  <ul class="list-disc mx-6 mb-10 grid gap-2">
+    <li>
+      <a href="https://alyra.fr" target="_blank">Blockchain Engineer Diploma – Alyra (2022)</a>
+    </li>
+    <li>
+      <a href="https://alyra.fr" target="_blank">Solana Developer Diploma – Alyra (2025)</a>
+    </li>
+  </ul>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Skills</div>
+  </div>
+
+  <ul class="list-disc md:columns-5 columns-2 mx-6">
+    <li>Solidity</li>
+    <li>Foundry</li>
+    <li>Hardhat</li>
+    <li>Smart contract auditing</li>
+    <li>Uniswap V3</li>
+    <li>Compound V2</li>
+    <li>LayerZero OFT</li>
+    <li>NFT standards</li>
+    <li>Rust (beginner)</li>
+    <li>Anchor (beginner)</li>
+    <li>OpenGL</li>
+    <li>C++</li>
+    <li>GLSL</li>
+    <li>Git</li>
+    <li>Fuzzing & invariant testing</li>
+  </ul>
+</BaseLayout>

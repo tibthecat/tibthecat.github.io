@@ -1,0 +1,111 @@
+---
+import { getCollection } from "astro:content";
+const { sideBarActiveItemID } = Astro.props;
+const activeClass = "bg-base-300"; // For primary color replace with `active` class
+
+
+
+const articles = await getCollection('blog');
+const seriesMap = new Map();
+
+articles.forEach(article => {
+  if (article.data.series) {
+    if (!seriesMap.has(article.data.series)) {
+      seriesMap.set(article.data.series, {
+        articles: [],
+        name: article.data.series.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())
+      });
+    }
+    seriesMap.get(article.data.series).articles.push(article);
+  }
+});
+
+// Sort series alphabetically and count articles
+const sortedSeries = Array.from(seriesMap.entries())
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([slug, data]) => ({
+    slug,
+    name: data.name,
+    count: data.articles.length
+  }));
+
+
+// Get current path to highlight active items
+const currentPath = Astro.url.pathname;
+---
+
+
+
+<ul class="menu grow shrink menu-md overflow-y-auto">
+    <li><a class="py-3 text-base" id="home" href="/">Home</a></li>
+    <li><a class="py-3 text-base" id="projects" href="/projects">Projects</a></li>
+    <li><a class="py-3 text-base" id="services" href="/services">Services</a></li>
+    <!-- <li><a class="py-3 text-base" id="blog" href="/blog/">Blog</a></li> -->
+    <!-- Blog with expandable series submenu -->
+  <li class="blog-menu-item">
+    <details class="blog-details" open={currentPath.startsWith('/blog') || currentPath.startsWith('/series')}>
+      <summary class="py-3 text-base cursor-pointer flex items-center justify-between">
+        <span>Blog</span>
+        <svg class="w-4 h-4 transition-transform duration-200 details-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </summary>
+      
+      <ul class="submenu ml-4 mt-2 space-y-1">
+        <!-- All Blog Posts -->
+        <li>
+          <a 
+            href="/blog" 
+            class={`block py-2 px-3 text-sm rounded transition-colors ${
+              currentPath === '/blog' || (currentPath.startsWith('/blog/') && !currentPath.startsWith('/series/'))
+                ? 'bg-blue-100 text-blue-700 font-medium' 
+                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+            }`}
+          >
+            All Posts
+          </a>
+        </li>
+        
+        <!-- Series divider -->
+        {sortedSeries.length > 0 && (
+          <li class="px-3 py-1">
+            <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider border-t pt-2">
+              Series
+            </div>
+          </li>
+        )}
+        
+        <!-- Series items -->
+        {sortedSeries.map(series => (
+          <li>
+            <a 
+              href={`/series/${series.slug}`}
+              class={`block py-2 px-3 text-sm rounded transition-colors flex items-center justify-between ${
+                currentPath === `/series/${series.slug}`
+                  ? 'bg-blue-100 text-blue-700 font-medium' 
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              }`}
+            >
+              <span>{series.name}</span>
+              <span class={`text-xs px-2 py-0.5 rounded-full ${
+                currentPath === `/series/${series.slug}`
+                  ? 'bg-blue-200 text-blue-800'
+                  : 'bg-gray-200 text-gray-600'
+              }`}>
+                {series.count}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  </li>
+
+    <li><a class="py-3 text-base" id="cv" href="/cv">CV</a></li>
+   
+</ul>
+
+<script define:vars={{ sideBarActiveItemID: sideBarActiveItemID, activeClass: activeClass }}>
+const activeItemElem = document.getElementById(sideBarActiveItemID);
+activeItemElem && activeItemElem.classList.add(activeClass);
+</script>
